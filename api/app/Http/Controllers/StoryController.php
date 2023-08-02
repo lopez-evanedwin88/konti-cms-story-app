@@ -19,9 +19,16 @@ class StoryController extends Controller
      */
     public function index(): JsonResponse
     {
-        $stories = Story::all();
-    
-        return $this->sendResponse(StoryResource::collection($stories), 'Stories retrieved successfully.');
+        $user = auth()->user();
+        if ($user->isAdmin()) {
+            $stories = Story::all();
+            return $this->sendResponse(StoryResource::collection($stories), 'Stories retrieved successfully.');
+        } else {
+            $stories = Story::->where(function ($query) {
+                $query->('id', '=', $user->id())->whereIn('status', ['Draft', 'Published']);
+            })->orWhere('status','Published')->get();
+            return $this->sendResponse(StoryResource::collection($stories), 'Stories retrieved successfully.');
+        }
     }
     /**
      * Store a newly created resource in storage.
@@ -35,7 +42,8 @@ class StoryController extends Controller
    
         $validator = Validator::make($input, [
             'title' => 'required',
-            'content' => 'required'
+            'content' => 'required',
+            'status' => 'required',
         ]);
    
         if($validator->fails()){
