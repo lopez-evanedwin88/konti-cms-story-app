@@ -12,8 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-const ADMIN_TYPE = 'Admin';
-const USER_TYPE = 'User';
+    const ADMIN_TYPE = 'Admin';
+    const USER_TYPE = 'User';
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +24,7 @@ const USER_TYPE = 'User';
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -45,4 +46,12 @@ const USER_TYPE = 'User';
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAdmin() {
+        return $this->role === self::ADMIN_TYPE;
+    }
+   
+   public function isUser() {
+        return $this->role === self::USER_TYPE;
+   } 
 }

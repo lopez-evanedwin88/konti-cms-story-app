@@ -23,6 +23,7 @@ class RegisterController extends BaseController
             'email' => 'required|email',
             'password' => 'required',
             'c_password' => 'required|same:password',
+            'role' => 'required',
         ]);
    
         if($validator->fails()){
