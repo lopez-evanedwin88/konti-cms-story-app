@@ -13,6 +13,7 @@ RUN apt-get update \
 # Install Node (v16 LTS) (required by Octane)
     && curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs \
+    && apt-get install npm \
 # Install NPM (required by Octane)
     && npm install -g npm \
 # Install Chokidar (required by Octane)
@@ -33,7 +34,7 @@ WORKDIR /var/www/html
 EXPOSE 8000
 
 # Run the Octane service
-CMD ["php", "artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=8000", "--max-requests=1000", "--watch"]
+CMD ["npm", "start", "php", "artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=8000", "--max-requests=1000", "--watch"]
 
 # The health check configuration
 HEALTHCHECK --start-period=5s --interval=5s --timeout=5s --retries=3 \
