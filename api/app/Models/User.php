@@ -53,5 +53,9 @@ class User extends Authenticatable
    
    public function isUser() {
         return $this->role === self::USER_TYPE;
-   } 
+   }
+
+   public function stories() {
+    return $this->belongsToMany(Story::class, 'users_stories', 'story_id', 'user_id');
+   }
 }
