@@ -19,6 +19,6 @@ class StoryResource extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'status' => $this->status,
-        ]
+        ];
     }
 }

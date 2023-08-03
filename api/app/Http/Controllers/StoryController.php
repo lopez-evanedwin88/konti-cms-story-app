@@ -10,23 +10,25 @@ use Illuminate\Http\JsonResponse;
 
 use App\Models\Story;
 
-class StoryController extends Controller
+class StoryController extends BaseController
 {
         /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): JsonResponse
+    public function index()
     {
         $user = auth()->user();
         if ($user->isAdmin()) {
             $stories = Story::all();
+
             return $this->sendResponse(StoryResource::collection($stories), 'Stories retrieved successfully.');
         } else {
-            $stories = Story::->where(function ($query) {
-                $query->('id', '=', $user->id())->whereIn('status', ['Draft', 'Published']);
-            })->orWhere('status','Published')->get();
+            $stories = Story::whereHas('users', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })->orWhere('status', 'Published')->get();
+
             return $this->sendResponse(StoryResource::collection($stories), 'Stories retrieved successfully.');
         }
     }
@@ -39,19 +41,91 @@ class StoryController extends Controller
     public function store(Request $request): JsonResponse
     {
         $input = $request->all();
-   
+        $users = $input['users_id'];
+
         $validator = Validator::make($input, [
             'title' => 'required',
             'content' => 'required',
             'status' => 'required',
+            'users_id' => 'required',
         ]);
    
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-   
-        $story = Story::create($input);
+
+        $story = new Story;
+        $story->title = $input['title'];
+        $story->content = $input['content'];
+        $story->status = $input['status'];
+        $story->save();
+        $story->users()->attach($users);
    
         return $this->sendResponse(new StoryResource($story), 'Story created successfully.');
     } 
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id): JsonResponse
+    {
+        $story = Story::find($id);
+  
+        if (is_null($story)) {
+            return $this->sendError('Story not found.');
+        }
+   
+        return $this->sendResponse(new StoryResource($story), 'Story retrieved successfully.');
+    }
+    
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id): JsonResponse
+    {
+        $input = $request->all();
+        $users = $input['users_id'];
+   
+        $validator = Validator::make($input, [
+            'title' => 'required',
+            'content' => 'required',
+            'status' => 'required',
+            'users_id' => 'required',
+        ]);
+   
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+
+        $story = Story::find($id);
+        $story->title = $input['title'];
+        $story->content = $input['content'];
+        $story->status = $input['status'];
+        $story->save();
+        $story->users()->sync($users);
+   
+        return $this->sendResponse(new StoryResource($story), 'Story updated successfully.');
+    }
+   
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id): JsonResponse
+    {
+        $story = Story::find($id);
+        $story->users()->detach();
+        $story->delete();
+   
+        return $this->sendResponse([], 'Story deleted successfully.');
+    }
 }
