@@ -1,5 +1,6 @@
 <template>
   <div>
-  Initial project structure
+    <NuxtLayout/>
+    <NuxtPage />
   </div>
 </template>
