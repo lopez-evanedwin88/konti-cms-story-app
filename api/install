@@ -31,6 +31,16 @@ install_laravel() {
     php artisan key:generate --ansi
 }
 
+init_laravel() {
+  # Init laravel project
+  docker compose -f "$COMPOSE_FILE" run --rm --no-deps "$APP_CONTAINER" \
+    composer install
+
+  # Generate the application key
+  docker compose -f "$COMPOSE_FILE" run --rm --no-deps "$APP_CONTAINER" \
+    php artisan key:generate --ansi
+}
+
 install_octane() {
   # Install the Octane package
   docker compose -f "$COMPOSE_FILE" run --rm --no-deps "$APP_CONTAINER" \
@@ -77,8 +87,8 @@ docker network create "$GATEWAY_NETWORK"
 make build.all
 
 # Install the Laravel framework
-install_laravel
-
+#install_laravel
+init_laravel
 # Install the Octane package
 install_octane
 
