@@ -42,24 +42,24 @@ docker network create "$GATEWAY_NETWORK"
 docker compose -f "$COMPOSE_FILE" build
 
 # Init a new Nuxt app into a temporary directory
-if [ "$NUXT_VERSION" == 2 ]; then
-    docker compose -f "$COMPOSE_FILE" run --rm --no-deps \
-        --user "root":"root" "$APP_CONTAINER" \
-        yarn create nuxt-app "$TEMP_INSTALL_DIRECTORY"
-else
-    docker compose -f "$COMPOSE_FILE" run --rm --no-deps \
-        --user "root":"root" "$APP_CONTAINER" \
-        npx nuxi init "$TEMP_INSTALL_DIRECTORY"
-fi
+# if [ "$NUXT_VERSION" == 2 ]; then
+#     docker compose -f "$COMPOSE_FILE" run --rm --no-deps \
+#         --user "root":"root" "$APP_CONTAINER" \
+#         yarn create nuxt-app "$TEMP_INSTALL_DIRECTORY"
+# else
+#     docker compose -f "$COMPOSE_FILE" run --rm --no-deps \
+#         --user "root":"root" "$APP_CONTAINER" \
+#         npx nuxi init "$TEMP_INSTALL_DIRECTORY"
+# fi
 
 # Set ownership of the temporary directory to the current user
-sudo chown -R "root":"root" "$TEMP_INSTALL_DIRECTORY"
+#sudo chown -R "root":"root" "$TEMP_INSTALL_DIRECTORY"
 
 # Move everything from the temporary directory to the current directory
-mv ${TEMP_INSTALL_DIRECTORY}/* ${TEMP_INSTALL_DIRECTORY}/.* .
+#mv ${TEMP_INSTALL_DIRECTORY}/* ${TEMP_INSTALL_DIRECTORY}/.* .
 
 # Remove the temporary directory
-rm -r "$TEMP_INSTALL_DIRECTORY"
+#rm -r "$TEMP_INSTALL_DIRECTORY"
 
 # Install packages
 if [ "$NUXT_VERSION" == 3 ]; then
