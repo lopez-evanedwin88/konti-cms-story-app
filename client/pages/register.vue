@@ -17,7 +17,6 @@
                   name="fullname"
                   v-model="fullname"
                   required
-                  data-vv-delay="100"
                 />
               </div>
             </div>
@@ -129,7 +128,7 @@ export default {
         this.$router.push("/login");
 
       } catch (e) {
-        this.error = e.response.data.message;
+        this.error = e.response._data.message;
       }
     },
   },
