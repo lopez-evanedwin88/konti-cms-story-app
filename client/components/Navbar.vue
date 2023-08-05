@@ -5,8 +5,8 @@
         <nuxt-link class="navbar-item" to="/">Konti-CMS</nuxt-link>
       </div>
       <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item">Home</a>
+        <div class="navbar-start" v-if="false">
+          <a class="navbar-item" to="/dashboard">Home</a>
         </div>
       </div>
       <div class="navbar-menu">
