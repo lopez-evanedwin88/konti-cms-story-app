@@ -64,7 +64,7 @@
   </div>
 </template>
 <script>
-//   import { mapGetters } from 'vuex'
+import { userUserStore } from '~/store';
 
 export default {
   data() {
@@ -89,6 +89,7 @@ export default {
   methods: {
     async createStory() {
       try {
+        const userStore = userUserStore();
         const { success } = await useApiFetch("/stories", {
           method: "POST",
           body: {
@@ -98,7 +99,7 @@ export default {
             users_id: [1],
           },
           headers: {
-            Authorization: `Bearer ${"8|XWt1B8UDGNdvV3uSC7BfrP7WM2nCFJP8A8FliIJt"}`,
+            Authorization: `Bearer ${userStore.user.token}`,
           },
         });
 
@@ -113,6 +114,7 @@ export default {
     },
     async updateStory() {
       try {
+        const userStore = userUserStore();
         const { success } = await useApiFetch(`/stories/${this.id}`, {
           method: "PUT",
           body: {
@@ -122,7 +124,7 @@ export default {
             users_id: [1],
           },
           headers: {
-            Authorization: `Bearer ${"8|XWt1B8UDGNdvV3uSC7BfrP7WM2nCFJP8A8FliIJt"}`,
+            Authorization: `Bearer ${userStore.user.token}`,
           },
         });
 
@@ -137,10 +139,11 @@ export default {
     },
     async getStory($id) {
       try {
+        const userStore = userUserStore();
         const { data, success } = await useApiFetch(`/stories/${$id}`, {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${"8|XWt1B8UDGNdvV3uSC7BfrP7WM2nCFJP8A8FliIJt"}`,
+            Authorization: `Bearer ${userStore.user.token}`,
           },
         });
 

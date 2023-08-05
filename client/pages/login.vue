@@ -52,6 +52,7 @@
 
 <script>
 import Notification from "~/components/Notification";
+import { userUserStore } from '~/store';
 
 export default {
   components: {
@@ -78,7 +79,10 @@ export default {
           this.error = message;
         }
 
-        //init here for storing token
+        const store = userUserStore();
+        store.setUser({
+          ...data
+        });
 
         this.$router.push("/dashboard");
       } catch (e) {

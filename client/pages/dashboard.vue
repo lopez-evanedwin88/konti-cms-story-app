@@ -36,6 +36,7 @@
 
 <script>
 import Notification from "~/components/Notification";
+import { userUserStore } from '~/store';
 
 export default {
   components: {
@@ -52,10 +53,11 @@ export default {
   methods: {
     async loadStories() {
       try {
+        const userStore = userUserStore();
         const { data, success } = await useApiFetch("/stories", {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${"8|XWt1B8UDGNdvV3uSC7BfrP7WM2nCFJP8A8FliIJt"}`,
+            Authorization: `Bearer ${userStore.user.token}`,
           },
         });
 
