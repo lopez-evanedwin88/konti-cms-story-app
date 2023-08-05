@@ -50,6 +50,7 @@ class RegisterController extends BaseController
             $success['token'] =  $user->createToken(config('app.name'))->plainTextToken; 
             $success['name'] =  $user->name;
             $success['id'] =  $user->id;
+            $success['role'] =  $user->role;
    
             return $this->sendResponse($success, 'User login successfully.');
         } 
