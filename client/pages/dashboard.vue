@@ -4,7 +4,7 @@
       <div class="column is-4 is-offset-4">
         <h2 class="title">Stories..</h2>
         <div class="mb-2" v-for="story in stories" :key="story.id">
-          <div class="card" style="margin-bottom: 0.75rem;">
+          <div class="card" style="margin-bottom: 0.75rem">
             <div class="card-content">
               <div class="media">
                 <div class="media-content">
@@ -16,7 +16,14 @@
               </div>
               <label>{{ story.status }} ~ by Lorem Ipsum</label>
               <footer class="card-footer">
-                <a href="#" class="card-footer-item">View</a>
+                <nuxt-link
+                  class="card-footer-item"
+                  :to="{
+                    path: '/story',
+                    query: { story: story.id },
+                  }"
+                  >View</nuxt-link
+                >
               </footer>
             </div>
           </div>
