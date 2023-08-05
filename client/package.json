@@ -10,10 +10,13 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
     "@types/node": "^18.17.1",
     "nuxt": "^3.6.5"
   },
   "dependencies": {
-    "ohmyfetch": "^0.4.21"
+    "@pinia/nuxt": "^0.4.11",
+    "ohmyfetch": "^0.4.21",
+    "pinia": "^2.1.6"
   }
 }
