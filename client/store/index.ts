@@ -5,11 +5,12 @@ export const userUserStore = defineStore("userStore", {
     user: {
         id: "",
         token: "",
-        name: ""
+        name: "",
+        role: "",
     }
   }),
   actions: {
-    setToken($user: any) {
+    setUser($user: any) {
       this.user = {
         ...$user
       };
