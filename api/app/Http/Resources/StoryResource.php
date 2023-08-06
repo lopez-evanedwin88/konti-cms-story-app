@@ -19,6 +19,8 @@ class StoryResource extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'status' => $this->status,
+            'created_by' => $this->created_by,
+            'published_by' => $this->published_by,
         ];
     }
 }

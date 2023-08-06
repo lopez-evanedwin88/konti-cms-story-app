@@ -48,6 +48,7 @@ class StoryController extends BaseController
             'content' => 'required',
             'status' => 'required',
             'users_id' => 'required',
+            'created_by' => 'required',
         ]);
    
         if($validator->fails()){
@@ -58,6 +59,7 @@ class StoryController extends BaseController
         $story->title = $input['title'];
         $story->content = $input['content'];
         $story->status = $input['status'];
+        $story->created_by = $input['created_by'];
         $story->save();
         $story->users()->attach($users);
    
@@ -108,6 +110,7 @@ class StoryController extends BaseController
         $story->title = $input['title'];
         $story->content = $input['content'];
         $story->status = $input['status'];
+        $story->published = $input['published_by'];
         $story->save();
         $story->users()->sync($users);
    
