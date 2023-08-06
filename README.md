@@ -11,9 +11,10 @@ Well tested on macOS ventura 13.0
   * Redis
 * Client
   * Nuxt 3 (latest version)
-* Gateway
-  * Nginx (as reverse-proxy)
-  * Certbot
+* Docker version
+  * 24.0.2
+* Docker compose version
+  * v2.19.1
 
 ## 📜 Introduction
 
