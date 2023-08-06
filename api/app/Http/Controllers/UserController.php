@@ -20,10 +20,10 @@ class UserController extends BaseController
         }
     }
 
-    public function userStores(Request $request): JsonResponse 
+    public function userStores(Request $request) 
     {
         $input = $request->all();
-        $users = $input['users_id'];
+        $users = explode(',', $input['users_id']);
         
         if (auth()->user()) {
             $usersObj = User::whereIn('id', $users)->get();
