@@ -10,7 +10,7 @@ class Story extends Model {
     use HasFactory;
 
     protected $fillable = [
-        'title', 'content', 'status'   
+        'title', 'content', 'status', 'created_by', 'published_by'
     ];
 
     public function users() {

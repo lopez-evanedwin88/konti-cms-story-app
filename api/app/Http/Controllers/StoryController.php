@@ -110,7 +110,7 @@ class StoryController extends BaseController
         $story->title = $input['title'];
         $story->content = $input['content'];
         $story->status = $input['status'];
-        $story->published = $input['published_by'];
+        $story->published_by = $input['published_by'];
         $story->save();
         $story->users()->sync($users);
    
