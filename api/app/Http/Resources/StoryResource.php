@@ -21,6 +21,7 @@ class StoryResource extends JsonResource
             'status' => $this->status,
             'created_by' => $this->created_by,
             'published_by' => $this->published_by,
+            'users_id' => $this->users()->get()->pluck('id'),
         ];
     }
 }
