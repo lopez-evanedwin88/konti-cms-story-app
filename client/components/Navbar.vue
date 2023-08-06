@@ -6,7 +6,7 @@
       </div>
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start" v-if="userStore.user.token !== ''">
-          <nuxt-link class="navbar-item" to="/dashboard">Home</nuxt-link>
+          <nuxt-link class="navbar-item" to="/dashboard">Dashboard</nuxt-link>
         </div>
       </div>
       <div class="navbar-menu">

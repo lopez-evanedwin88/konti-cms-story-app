@@ -2,7 +2,18 @@
   <div class="container">
     <div class="columns">
       <div class="column is-4 is-offset-4">
-        <h2 class="title">Stories..</h2>
+        <div
+          class="is-flex"
+          style="justify-content: space-between; margin-top: 1rem"
+        >
+          <h2 class="title">Stories..</h2>
+          <nuxt-link class="button is-success" to="/story"
+            ><span class="icon is-small">
+              <i class="fa fa-plus-square"></i>
+            </span>
+            <span>Compose story</span></nuxt-link
+          >
+        </div>
         <div class="mb-2" v-for="story in stories" :key="story.id">
           <div class="card" style="margin-bottom: 0.75rem">
             <div class="card-content">
@@ -36,7 +47,7 @@
 
 <script>
 import Notification from "~/components/Notification";
-import { userUserStore } from '~/store';
+import { userUserStore } from "~/store";
 
 export default {
   components: {
