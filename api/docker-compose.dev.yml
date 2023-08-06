@@ -13,7 +13,6 @@ services:
       - postgres
       - postgres-testing
       - redis
-      - mailhog
     hostname: api
     ports:
       - "8000:8000"
@@ -21,36 +20,6 @@ services:
       - api
       - gateway
     restart: unless-stopped
-
-  queue:
-    build:
-      dockerfile: .docker/dev/queue/Dockerfile
-      args:
-        IMAGE_REGISTRY: ${IMAGE_REGISTRY}
-        IMAGE_TAG: ${IMAGE_TAG}
-    volumes:
-      - ./:/var/www/html
-    links:
-      - postgres
-      - redis
-      - mailhog
-    networks:
-      - api
-
-  schedule:
-    build:
-      dockerfile: .docker/dev/schedule/Dockerfile
-      args:
-        IMAGE_REGISTRY: ${IMAGE_REGISTRY}
-        IMAGE_TAG: ${IMAGE_TAG}
-    volumes:
-      - ./:/var/www/html
-    links:
-      - postgres
-      - redis
-      - mailhog
-    networks:
-      - api
 
   postgres:
     build:
@@ -84,14 +53,6 @@ services:
       - redis:/data
     ports:
       - "6379:6379"
-    networks:
-      - api
-
-  mailhog:
-    build:
-      dockerfile: .docker/dev/mailhog/Dockerfile
-    ports:
-      - "8025:8025"
     networks:
       - api
 

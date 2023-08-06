@@ -272,3 +272,9 @@ danger.remove: down
 		phpunit.xml \
 		README.md \
 		webpack.mix.js
+
+purge.container:
+	docker rm -f $(docker ps -a -q)
+
+purge.volume:
+	docker volume rm $(docker volume ls -q)
