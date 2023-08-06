@@ -25,4 +25,5 @@ Route::controller(RegisterController::class)->group(function() {
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('stories', StoryController::class);
     Route::resource('users', UserController::class);
+    Route::get('/userstories', [UserController::class, 'userStores']);
 });
