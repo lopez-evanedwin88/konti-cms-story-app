@@ -17,6 +17,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
     "ohmyfetch": "^0.4.21",
-    "pinia": "^2.1.6"
+    "pinia": "^2.1.6",
+    "vue-multiselect": "^3.0.0-beta.2"
   }
 }
