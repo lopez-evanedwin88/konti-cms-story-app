@@ -19,6 +19,10 @@
 <script>
 import { userUserStore } from "~/store";
 
+definePageMeta({
+  middleware: 'auth'
+});
+
 export default {
   mounted() {
     const userStore = userUserStore();

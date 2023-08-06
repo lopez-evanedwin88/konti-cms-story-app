@@ -49,6 +49,10 @@
 import Notification from "~/components/Notification";
 import { userUserStore } from "~/store";
 
+definePageMeta({
+  middleware: 'auth'
+});
+
 export default {
   components: {
     Notification,
