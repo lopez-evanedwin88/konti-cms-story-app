@@ -20,14 +20,42 @@
             </div>
           </div>
           <div class="field">
-            <label class="label">Authors</label>
-            <div class="control">
-              <input
-                type="text"
-                class="input"
-                name="authors"
-                v-model="authors"
-              />
+            <div>
+              <label class="label">Current Authors: </label>
+              <span
+                class="tag is-warning is-medium"
+                style="margin-right: 0.5rem"
+                v-if="isCreate === true"
+              >
+                Me
+                <button class="delete is-small"></button>
+              </span>
+              <span
+                class="tag is-warning is-medium"
+                style="margin-right: 0.5rem"
+                v-for="author in authors"
+                :key="author.id"
+                v-else
+              >
+                {{ author.id === currentUser.id ? "Me" : author.name }}
+                <button class="delete is-small"></button>
+              </span>
+            </div>
+            <div class="column">
+              <label class="label">Invite other authors</label>
+              <VueMultiselect
+                placeholder="Search Author"
+                label="name"
+                track-by="id"
+                :close-on-select="false"
+                v-model="value"
+                tag-placeholder="Add this as new user"
+                :options="options"
+                :multiple="true"
+                :taggable="true"
+                @tag="addTag"
+              >
+              </VueMultiselect>
             </div>
           </div>
           <div class="field">
@@ -65,28 +93,34 @@
 </template>
 <script>
 import { userUserStore } from "~/store";
+import VueMultiselect from "vue-multiselect";
 
 definePageMeta({
   middleware: "auth",
 });
 
 export default {
+  components: { VueMultiselect },
   data() {
     return {
       id: "",
       title: "",
       content: "",
-      authors: "",
+      authors: [],
       status: "Draft",
       published_by: "",
       users_id: [],
+      value: [],
+      options: [],
       error: null,
       isCreate: true,
+      currentUser: userUserStore().user,
     };
   },
   mounted() {
-    const route = useRoute();
+    this.loadusers();
 
+    const route = useRoute();
     if (route.query.story) {
       this.isCreate = false;
       this.getStory(route.query.story);
@@ -103,7 +137,7 @@ export default {
             content: this.content,
             status: this.status,
             created_by: userStore.user.name,
-            users_id: [userStore.user.id],
+            users_id: [userStore.user.id, ...this.value.map((u) => u.id)],
           },
           headers: {
             Authorization: `Bearer ${userStore.user.token}`,
@@ -129,7 +163,7 @@ export default {
             content: this.content,
             status: this.status,
             published_by: this.published_by,
-            users_id: [userStore.user.id, ...this.users_id],
+            users_id: [...this.users_id, ...this.value.map((u) => u.id)],
           },
           headers: {
             Authorization: `Bearer ${userStore.user.token}`,
@@ -164,6 +198,7 @@ export default {
         this.content = data.content;
         this.status = data.status;
         this.users_id = data.users_id;
+        this.currentUsersStory();
       } catch (e) {
         this.error = e.response._data.message;
       }
@@ -174,6 +209,59 @@ export default {
       this.published_by = userStore.user.name;
       this.updateStory();
     },
+    async loadusers() {
+      try {
+        const userStore = userUserStore();
+        const { data, success } = await useApiFetch(`/users`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${userStore.user.token}`,
+          },
+        });
+
+        if (!success) {
+          this.error = message;
+        }
+
+        this.options = data;
+      } catch (e) {
+        this.error = e.response._data.message;
+      }
+    },
+    async currentUsersStory() {
+      try {
+        const userStore = userUserStore();
+        const { data, success } = await useApiFetch(
+          `/userstories?${new URLSearchParams({
+            users_id: [...this.users_id],
+          })}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${userStore.user.token}`,
+            },
+          }
+        );
+
+        if (!success) {
+          this.error = message;
+        }
+
+        this.authors = data;
+      } catch (e) {
+        this.error = e.response._data.message;
+      }
+    },
+    addTag(newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000),
+      };
+      this.options.push(tag);
+      this.value.push(tag);
+    },
   },
 };
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
