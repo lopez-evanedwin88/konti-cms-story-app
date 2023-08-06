@@ -113,6 +113,10 @@ db.refresh: db.fresh db.seed
 db.dump:
 	docker compose -f ${COMPOSE_FILE} exec postgres pg_dump -U ${DB_USERNAME} -d ${DB_DATABASE} > ./.docker/postgres/dumps/dump.sql
 
+# Display routes
+route.list:
+	docker compose -f ${COMPOSE_FILE} exec app php artisan route:list
+
 # TODO: add command to import db dump
 
 # Restart the queue process
@@ -273,8 +277,3 @@ danger.remove: down
 		README.md \
 		webpack.mix.js
 
-purge.container:
-	docker rm -f $(docker ps -a -q)
-
-purge.volume:
-	docker volume rm $(docker volume ls -q)
