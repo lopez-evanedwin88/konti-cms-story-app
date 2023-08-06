@@ -26,7 +26,7 @@ The project is just separate pre-configured Laravel and Nuxt applications
 Clone or download the repository and enter its directory:
 
 ```bash
-git clone https://github.com/nevadskiy/laravel-nuxt-docker.git app
+git clone https://github.com/lopez-evanedwin88/konti-cms-story-app.git app
 cd app
 ```
 
