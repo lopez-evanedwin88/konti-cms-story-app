@@ -64,10 +64,10 @@
   </div>
 </template>
 <script>
-import { userUserStore } from '~/store';
+import { userUserStore } from "~/store";
 
 definePageMeta({
-  middleware: 'auth'
+  middleware: "auth",
 });
 
 export default {
@@ -78,6 +78,8 @@ export default {
       content: "",
       authors: "",
       status: "Draft",
+      published_by: "",
+      users_id: [],
       error: null,
       isCreate: true,
     };
@@ -100,7 +102,8 @@ export default {
             title: this.title,
             content: this.content,
             status: this.status,
-            users_id: [1],
+            created_by: userStore.user.name,
+            users_id: [userStore.user.id],
           },
           headers: {
             Authorization: `Bearer ${userStore.user.token}`,
@@ -125,7 +128,8 @@ export default {
             title: this.title,
             content: this.content,
             status: this.status,
-            users_id: [1],
+            published_by: this.published_by,
+            users_id: [userStore.user.id, ...this.users_id],
           },
           headers: {
             Authorization: `Bearer ${userStore.user.token}`,
@@ -159,14 +163,17 @@ export default {
         this.title = data.title;
         this.content = data.content;
         this.status = data.status;
+        this.users_id = data.users_id;
       } catch (e) {
         this.error = e.response._data.message;
       }
     },
     updateStatus() {
-        this.status = "Published";
-        this.updateStory();
-    }
+      const userStore = userUserStore();
+      this.status = "Published";
+      this.published_by = userStore.user.name;
+      this.updateStory();
+    },
   },
 };
 </script>
