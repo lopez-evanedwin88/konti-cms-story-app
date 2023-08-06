@@ -19,8 +19,11 @@ class StorySeeder extends Seeder
         Story::truncate();
 
         Story::factory()->count(15)->create()->each(function ($story) {
+            $user = User::inRandomOrder()->first();
+            $story->created_by = $user->name;
+            $story->save();
             $story->users()->attach([
-                User::inRandomOrder()->first()->id,
+                $user->id,
                 User::inRandomOrder()->first()->id,
             ]);
         });
