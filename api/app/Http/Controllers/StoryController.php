@@ -21,13 +21,13 @@ class StoryController extends BaseController
     {
         $user = auth()->user();
         if ($user->isAdmin()) {
-            $stories = Story::all();
+            $stories = Story::orderBy('status','desc')->get();
 
             return $this->sendResponse(StoryResource::collection($stories), 'Stories retrieved successfully.');
         } else {
             $stories = Story::whereHas('users', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
-            })->orWhere('status', 'Published')->get();
+            })->orWhere('status', 'Published')->orderBy('status','desc')->get();
 
             return $this->sendResponse(StoryResource::collection($stories), 'Stories retrieved successfully.');
         }
