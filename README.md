@@ -72,6 +72,17 @@ cd client
 ./install
 ```
 
+>> To this an existing user, 
+```
+> Admin Role
+email: test.admin@gmail.com
+password: test123
+
+> User Role
+email: test.user1@gmail.com
+password: test123
+```
+
 This will install and run a fresh new Nuxt 3 app which will be available on `http://localhost:3000`.
 
 #### Advanced installation
