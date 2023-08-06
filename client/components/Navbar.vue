@@ -13,12 +13,15 @@
         <div class="navbar-end">
           <div
             class="navbar-item has-dropdown is-hoverable"
-            v-if="userStore.user.token !== ''">
+            v-if="userStore.user.token !== ''"
+          >
             <a class="navbar-link"> Hi {{ userStore.user.name }} </a>
             <div class="navbar-dropdown">
-              <nuxt-link class="navbar-item" to="/profile">My Profile</nuxt-link>
+              <nuxt-link class="navbar-item" to="/profile"
+                >My Profile</nuxt-link
+              >
               <hr class="navbar-divider" />
-              <a class="navbar-item">Logout</a>
+              <a class="navbar-item" @click="logout">Logout</a>
             </div>
           </div>
           <template v-else>
@@ -40,5 +43,12 @@ export default {
       error: null,
     };
   },
+  methods: {
+    logout() {
+      const store = userUserStore();
+      store.purgeUser();
+      this.$router.push("/login");
+    }
+  }
 };
 </script>
