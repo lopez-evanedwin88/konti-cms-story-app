@@ -17,7 +17,7 @@ class StoryController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $user = auth()->user();
         if ($user->isAdmin()) {
