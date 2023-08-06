@@ -25,7 +25,7 @@
               <div class="content">
                 {{ story.content }}
               </div>
-              <label>{{ story.status }} ~ by Lorem Ipsum</label>
+              <label>{{ story.status }} ~ by {{ story.status === 'Draft' ? story.created_by : story.published_by }}</label>
               <footer class="card-footer">
                 <nuxt-link
                   class="card-footer-item"
